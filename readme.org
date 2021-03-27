@@ -4,13 +4,12 @@
     - oscGroups by Ross Benscina - https://github.com/RossBencina/oscgroups.git
     - oscpack by Ross Benscina - https://github.com/RossBencina/oscpack.git
 
-    /git clone/ both before mentioned repositories in the same folder.
-
-- on Unix systems just type
+- For unix systems:
 #+BEGIN_SRC bash
+cd oscgroups
 make
 #+END_SRC
-inside the oscgroups directory. After this the server and client executables will be in the *bin* folder.
+After this the server and client executables will be in the *bin* folder.
 ** usage
 *** client
 #+BEGIN_SRC bash
@@ -55,8 +54,26 @@ should be unique.
     a password for the group. users without the correct password
 won't be admitted to the group.
 
-**** example
-     ./OscGroupClient  22242 22243 22244 22245 nikk nikkpass nikkgroup nikkpass
+**** Example
+     ./OscGroupClient 64.225.97.89 22242 22243 22244 22245 nikk nikkpass nikkgroup nikkpass
+
+     after being connected to the server osc messages will be coming in on locahost and port 22245 and outgoing traffic will be on localhost and port 22244.
+     So for Supercollider a basic example would be:
+#+BEGIN_SRC sclang
+(
+// To start monitoring recieved osc messages.
+// If more than one client is connected to the server ping osc messages should be recieved.
+thisProcess.openUDPPort(22245);
+OSCFunc.trace(true, true); // second boolean is for the hideStatusMsg argument.
+)
+// To send messages
+b = NetAddr.new("127.0.0.1", 22245);
+b.sendMsg("/hello", "there");
+
+// recieving message function
+o = OSCFunc({ arg msg, time, addr, recvPort; [msg, time, addr, recvPort].postln; }, '/test', recvPort: 22245);
+#+END_SRC
+
 *** server
     usage: ./OscGroupServer [-p port] [-t timeoutSeconds] [-u maxUsers] [-g maxGroups] [-l logfile]
 ** troubleshooting
