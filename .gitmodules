@@ -1,0 +1,6 @@
+[submodule "oscpack"]
+	path = oscpack
+	url = https://github.com/RossBencina/oscpack.git
+[submodule "oscgroups"]
+	path = oscgroups
+	url = https://github.com/RossBencina/oscgroups.git

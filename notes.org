@@ -1,0 +1,63 @@
+* oscGroups
+** compilation
+*** repositories used
+    - oscGroups by Ross Benscina - https://github.com/RossBencina/oscgroups.git
+    - oscpack by Ross Benscina - https://github.com/RossBencina/oscpack.git
+
+    /git clone/ both before mentioned repositories in the same folder.
+
+- on Unix systems just type
+#+BEGIN_SRC bash
+make
+#+END_SRC
+inside the oscgroups directory. After this the server and client executables will be in the *bin* folder.
+** usage
+*** client
+#+BEGIN_SRC bash
+    usage: oscgroupclient serveraddress serverport localtoremoteport localtxport localrxport username password groupname grouppassword
+    users should send data to localhost:localtxport and listen on localhost:localrxport
+#+END_SRC
+
+
+    *servername*
+    an internet name such as oscgroups.iua.upf.edu or an ip address
+such as 193.145.55.19
+
+    *serverport*
+    the udp port which the server is listening on, the server
+defaults to 22242
+
+    *localtoremoteport*
+    the local port used to connect with the server and to other
+group members.
+
+    *localtxport*
+    this is the port which OscGroupClient listens to and forwards
+to other group members. direct your OSC traffic to this port.
+
+    *localrxport*
+    this is the port which OscGroupClient forwards trafic from
+other users to. you should configure your OSC application to listen
+to this port.
+
+    *username*
+    a unique user name used to identify you with other clients.
+
+    *password*
+    a password which is used to try to make sure that no one else
+pretends to be you on the server. this isn't secure but it helps.
+
+    *groupname*
+    a name that all group members agree on, like a user name it
+should be unique.
+
+    *grouppassword*
+    a password for the group. users without the correct password
+won't be admitted to the group.
+
+**** example
+     ./OscGroupClient  22242 22243 22244 22245 nikk nikkpass nikkgroup nikkpass
+*** server
+    usage: ./OscGroupServer [-p port] [-t timeoutSeconds] [-u maxUsers] [-g maxGroups] [-l logfile]
+** troubleshooting
+   - this setup does not work with clients tethered( or using hotspot) to a android smarthphones
